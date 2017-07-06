@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Signal Monitor</string>
+    <string name="s1_tag">Sensor 1: </string>
+    <string name="s2_tag">Sensor 2: </string>
+    <string name="s3_tag">Sensor 3: </string>
+    <string name="s4_tag">Sensor 4: </string>
+    <string name="s5_tag">Sensor 5: </string>
+
+    <string name="s1_button">Ver mas</string>
+    <string name="s2_button">Ver mas</string>
+    <string name="s3_button">Ver mas</string>
+    <string name="s4_button">Ver mas</string>
+    <string name="s5_button">Ver mas</string>
+    
+    <string name="graph_title">Sensor plot</string>
+
+</resources>
