@@ -14,4 +14,6 @@
     
     <string name="graph_title">Sensor plot</string>
 
+    <string name="blue_button">Bluetooth</string>
+
 </resources>
