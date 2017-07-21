@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.telecom.ConnectionService;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,11 +38,13 @@ import java.util.UUID;
 public class BlueActivity extends Activity {
 
     private BluetoothAdapter BA = null;
-    ArrayList devicesList = new ArrayList<>();
+    ArrayAdapter devListArrayAdapter;
     ListView lvDevices;
     ProgressBar progBar;
     BluetoothSocket btSocket = null;
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+    BlueConnectionService mBlueConnection;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,9 +57,7 @@ public class BlueActivity extends Activity {
             public void onTick(long millisUntilFinished){}
 
             @Override
-            public void onFinish(){
-                splashFinished();
-            }
+            public void onFinish(){ splashFinished(); }
         }.start();
     }
 
@@ -69,10 +70,13 @@ public class BlueActivity extends Activity {
         BA = BluetoothAdapter.getDefaultAdapter();
         if (!BA.isEnabled()) {
             BA.enable();
-            /*Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, 1);*/
-            Toast.makeText(getApplicationContext(), "Bluetooth ON",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Bluetooth ON", Toast.LENGTH_SHORT).show();
         }
+
+        devListArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+
+        lvDevices.setAdapter(devListArrayAdapter);
+        lvDevices.setOnItemClickListener(deviceListClickListener);
 
         IntentFilter filter = new IntentFilter();
 
@@ -89,7 +93,10 @@ public class BlueActivity extends Activity {
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
             BA.cancelDiscovery();
-            new connectBT().execute(address);
+            //connect
+            //change activity
+            mBlueConnection = new BlueConnectionService();
+            mBlueConnection.startClient(address);
         }
     };
 
@@ -99,72 +106,32 @@ public class BlueActivity extends Activity {
 
             if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
                 Toast.makeText(getApplicationContext(), "Scanning...",Toast.LENGTH_SHORT).show();
-                devicesList.clear();
+                devListArrayAdapter.clear();
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 Toast.makeText(getApplicationContext(), "Searching finished",Toast.LENGTH_SHORT).show();
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 //bluetooth device found
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                devicesList.add(device.getName() + "\n" + device.getAddress());
+                devListArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 
             }
 
-            final ArrayAdapter adapter = new ArrayAdapter<String>(BlueActivity.this,
-                    android.R.layout.simple_list_item_1, devicesList);
 
-            lvDevices.setAdapter(adapter);
-            lvDevices.setOnItemClickListener(deviceListClickListener);
         }
     };
 
-    public void searchDevices(View view){
-        BA.startDiscovery();
-    }
+    public void searchDevices(View view){ BA.startDiscovery(); }
 
     @Override
     protected void onDestroy() {
         unregisterReceiver(mReceiver);
+        try {
+            btSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         super.onDestroy();
-    }
-
-    private class connectBT extends AsyncTask<String, Void, Void>{
-
-        @Override
-        protected void onPreExecute() {
-            progBar.setVisibility(View.VISIBLE);
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            String address = params[0];
-            try {
-                BluetoothDevice remoteDevice = BA.getRemoteDevice(address);
-                btSocket = remoteDevice.createRfcommSocketToServiceRecord(myUUID);
-                btSocket.connect();
-            }catch (IOException e){
-                e.printStackTrace();
-                try {
-                    btSocket.close();
-                } catch (IOException closeException) { closeException.printStackTrace(); }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            progBar.setVisibility(View.INVISIBLE);
-
-            try{
-                btSocket.getOutputStream().write("BLUENNECTED!".getBytes());
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-        }
     }
 
 }

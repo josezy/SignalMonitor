@@ -1,6 +1,7 @@
 package com.example.jose.sensemonitor;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private BluetoothSocket btSocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showMore(View view){
         Intent intent = new Intent(MainActivity.this, GraphActivity.class);
+        intent.putExtra("PLOT_ID", view.getId());
         startActivity(intent);
     }
     

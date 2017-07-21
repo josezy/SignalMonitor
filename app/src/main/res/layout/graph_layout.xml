@@ -11,7 +11,7 @@
         android:paddingTop="8dp"
         android:text="@string/graph_title"
         android:textColor="#FFFFFF"
-        android:textSize="38sp" />
+        android:textSize="34sp" />
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
