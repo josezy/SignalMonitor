@@ -1,21 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.jose.sensemonitor.GraphFragment">
 
     <TextView
-        android:id="@+id/tv_graph_ly"
+        android:id="@+id/tvGraphTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
+        android:padding="8dp"
         android:text="@string/graph_title"
         android:textColor="#FFFFFF"
-        android:textSize="34sp" />
+        android:textSize="30sp" />
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="200dip"
         android:padding="8dp"
         android:id="@+id/graph" />
+
 </LinearLayout>

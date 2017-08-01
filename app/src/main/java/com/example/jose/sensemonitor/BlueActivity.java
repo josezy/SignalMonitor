@@ -13,8 +13,14 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.telecom.ConnectionService;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,103 +41,95 @@ import java.util.UUID;
  * Created by jose on 18/07/17.
  */
 
-public class BlueActivity extends Activity {
+public class BlueActivity extends AppCompatActivity implements communicate{
 
-    private BluetoothAdapter BA = null;
-    ArrayAdapter devListArrayAdapter;
-    ListView lvDevices;
-    ProgressBar progBar;
-    BluetoothSocket btSocket = null;
-    static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
-    BlueConnectionService mBlueConnection;
+    private BlueConnectionService mChatService = null;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.splash);
 
-        //display the logo during 3 seconds,
-        new CountDownTimer(3000,1000){
+        //display the logo during 2 seconds,
+        new CountDownTimer(2000,1000){
             @Override
             public void onTick(long millisUntilFinished){}
 
             @Override
-            public void onFinish(){ splashFinished(); }
+            public void onFinish(){
+                getSupportActionBar().show();
+                setContentView(R.layout.blue_layout);
+                splashFinished();
+            }
         }.start();
     }
 
-
-    protected void splashFinished(){
-        BlueActivity.this.setContentView(R.layout.blue_layout);
-        lvDevices = findViewById(R.id.blueListView);
-        progBar = findViewById(R.id.progBar);
-
-        BA = BluetoothAdapter.getDefaultAdapter();
-        if (!BA.isEnabled()) {
-            BA.enable();
-            Toast.makeText(getApplicationContext(), "Bluetooth ON", Toast.LENGTH_SHORT).show();
-        }
-
-        devListArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-
-        lvDevices.setAdapter(devListArrayAdapter);
-        lvDevices.setOnItemClickListener(deviceListClickListener);
-
-        IntentFilter filter = new IntentFilter();
-
-        filter.addAction(BluetoothDevice.ACTION_FOUND);
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-
-        registerReceiver(mReceiver, filter);
-        BA.startDiscovery();
+    void splashFinished(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        BlueFragment fragment = new BlueFragment();
+        transaction.replace(R.id.sample_content_fragment, fragment);
+        transaction.commit();
     }
 
-    private AdapterView.OnItemClickListener deviceListClickListener = new AdapterView.OnItemClickListener() {
-        public void onItemClick (AdapterView av, View v, int arg2, long arg3) {
-            String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
-            BA.cancelDiscovery();
-            //connect
-            //change activity
-            mBlueConnection = new BlueConnectionService();
-            mBlueConnection.startClient(address);
-        }
-    };
+    @Override
+    public void connectToDevice(BluetoothDevice device) {
+        mChatService.connect(device, true);
+        // TODO: wait for successful connection and replace fragment
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ValuesFragment ValsFragment = new ValuesFragment();
+        ft.replace(R.id.sample_content_fragment,ValsFragment);
+        ft.commit();
+    }
 
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
+    public void setmChatServiceHandler(Handler mHand){
+        mChatService.setHandler(mHand);
+    }
 
-            if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-                Toast.makeText(getApplicationContext(), "Scanning...",Toast.LENGTH_SHORT).show();
-                devListArrayAdapter.clear();
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                Toast.makeText(getApplicationContext(), "Searching finished",Toast.LENGTH_SHORT).show();
-            } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                //bluetooth device found
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                devListArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+    @Override
+    protected void onStart() {
+        // Initialize the BluetoothChatService to perform bluetooth connections
+        mChatService = new BlueConnectionService(BlueActivity.this);
 
-            }
+        super.onStart();
+    }
 
-
-        }
-    };
-
-    public void searchDevices(View view){ BA.startDiscovery(); }
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(mReceiver);
-        try {
-            btSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         super.onDestroy();
+    }
+
+    public void showMore(View view){
+        int plotID = 0;
+        switch (view.getId()){
+            case R.id.btn_s1:
+                plotID = 1;
+                break;
+            case R.id.btn_s2:
+                plotID = 2;
+                break;
+            case R.id.btn_s3:
+                plotID = 3;
+                break;
+            case R.id.btn_s4:
+                plotID = 4;
+                break;
+            case R.id.btn_s5:
+                plotID = 5;
+                break;
+            default:break;
+        }
+        //Toast.makeText(getApplicationContext(), "Plot "+plotID, Toast.LENGTH_SHORT).show();
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        GraphFragment graphyFragment = new GraphFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constants.PLOT_ID, plotID);
+        graphyFragment.setArguments(args);
+        ft.replace(R.id.sample_content_fragment, graphyFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
 }

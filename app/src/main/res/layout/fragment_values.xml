@@ -1,0 +1,150 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:paddingLeft="10dp"
+android:paddingRight="10dp"
+tools:context="com.example.jose.sensemonitor.BlueActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s1_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s1_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s1_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s1"/>
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s2_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s2_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s2_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s2"/>
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s3_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s3_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s3_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s3"/>
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s4_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s4_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s4_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s4"/>
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s5_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s5_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s5_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s5"/>
+</LinearLayout>
+
+</LinearLayout>
