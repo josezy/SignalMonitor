@@ -243,6 +243,13 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:id="@+id/bt_disconnect"
         android:visibility="gone"/>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/file_progressBar"
+        android:visibility="gone"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="120dp">

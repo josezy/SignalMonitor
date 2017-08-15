@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +26,12 @@ public class ValuesFragment extends Fragment {
     private static final char TASK_DELIMITER = ':';
 
     TextView tvValue1, tvValue2, tvValue3, tvValue4, tvValue5;
-//    Button btViewMore1, btViewMore2, btViewMore3, btViewMore4, btViewMore5;
+
     Button btDisconnect;
     Button btGetFile;
     TextView tvData;
+
+    ProgressBar progBar;
 
     public ValuesFragment() {
         // Required empty public constructor
@@ -50,11 +53,8 @@ public class ValuesFragment extends Fragment {
         tvValue4 = view.findViewById(R.id.tv_s4_value);
         tvValue5 = view.findViewById(R.id.tv_s5_value);
 
-        /*btViewMore1 = view.findViewById(R.id.btn_s1);
-        btViewMore2 = view.findViewById(R.id.btn_s2);
-        btViewMore3 = view.findViewById(R.id.btn_s3);
-        btViewMore4 = view.findViewById(R.id.btn_s4);
-        btViewMore5 = view.findViewById(R.id.btn_s5);*/
+        progBar = view.findViewById(R.id.file_progressBar);
+        progBar.setIndeterminate(true);
 
         btDisconnect = view.findViewById(R.id.bt_disconnect);
         btDisconnect.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +68,8 @@ public class ValuesFragment extends Fragment {
         btGetFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO show progressBar and disable button
+                progBar.setVisibility(View.VISIBLE);
                 ((BlueActivity) getActivity()).requestDB();
             }
         });
@@ -106,8 +108,12 @@ public class ValuesFragment extends Fragment {
                     }
 
                     if(task.equals(DATABASE_TASK)){
+                        // TODO save data to csv file
                         tvData.setText("(" + message.length() + ")");
                         tvData.append(message);
+
+                        //TODO hide progressBar and enable button
+                        progBar.setVisibility(View.GONE);
                     }
 
                     String[] values;
