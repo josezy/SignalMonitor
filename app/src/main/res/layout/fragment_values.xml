@@ -18,6 +18,22 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:textSize="22sp"
         android:paddingTop="8dp"
         android:text="@string/s1_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v1_tag"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -27,6 +43,7 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:paddingTop="8dp"
         android:layout_weight="1"
         android:id="@+id/tv_s1_value"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -46,6 +63,22 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:textSize="22sp"
         android:paddingTop="8dp"
         android:text="@string/s2_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val2"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v2_tag"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -74,6 +107,22 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:textSize="22sp"
         android:paddingTop="8dp"
         android:text="@string/s3_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val3"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v3_tag"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -102,6 +151,22 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:textSize="22sp"
         android:paddingTop="8dp"
         android:text="@string/s4_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val4"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v4_tag"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -130,6 +195,22 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:textSize="22sp"
         android:paddingTop="8dp"
         android:text="@string/s5_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val5"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v5_tag"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -161,5 +242,15 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:text="@string/bt_disconnect"
         android:id="@+id/bt_disconnect"
         android:visibility="gone"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_data"/>
+    </ScrollView>
+
 
 </LinearLayout>

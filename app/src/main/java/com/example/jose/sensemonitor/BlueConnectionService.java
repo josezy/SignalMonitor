@@ -441,6 +441,7 @@ public class BlueConnectionService {
                 mConnectThread = null;
             }
 
+
             // Start the connected thread
             connected(mmSocket, mmDevice, mSocketType);
         }
@@ -485,22 +486,30 @@ public class BlueConnectionService {
 
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
-            byte[] buffer = new byte[1024];
-            int bytes;
 
             // Keep listening to the InputStream while connected
             while (mState == STATE_CONNECTED) {
                 try {
                     if(mmInStream.available() > 0){
-                        //Wait for incoming data
-                        SystemClock.sleep(100);
-                        // Read from the InputStream
-                        bytes = mmInStream.read(buffer);
-                        if(bytes > 1){// Try to be sure we have received a string
-                            // Send the obtained bytes to the UI Activity
-                            mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
+
+                        char c;
+                        int ch;
+                        String s = "";
+                        do{
+                            ch = mmInStream.read();
+                            if(ch != -1){
+                                c = (char) ch;
+                                s += c + "";
+                            }else{
+                                //end of stream and no endline
+                                SystemClock.sleep(100);//wait a while
+                            }
+
+                        }while(ch != '\n');
+
+                        mHandler.obtainMessage(Constants.MESSAGE_READ, s.length(), -1, s)
                                     .sendToTarget();
-                        }
+
                     }
 
 
@@ -522,8 +531,8 @@ public class BlueConnectionService {
                 mmOutStream.write(buffer);
 
                 // Share the sent message back to the UI Activity
-                mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, buffer)
-                        .sendToTarget();
+                /*mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, buffer)
+                        .sendToTarget();*/
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
             }

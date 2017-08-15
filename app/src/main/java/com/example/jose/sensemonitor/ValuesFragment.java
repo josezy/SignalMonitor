@@ -21,10 +21,14 @@ import android.widget.Toast;
  */
 public class ValuesFragment extends Fragment {
 
+    private static final String DATABASE_TASK = "db";
+    private static final char TASK_DELIMITER = ':';
+
     TextView tvValue1, tvValue2, tvValue3, tvValue4, tvValue5;
 //    Button btViewMore1, btViewMore2, btViewMore3, btViewMore4, btViewMore5;
     Button btDisconnect;
     Button btGetFile;
+    TextView tvData;
 
     public ValuesFragment() {
         // Required empty public constructor
@@ -64,10 +68,11 @@ public class ValuesFragment extends Fragment {
         btGetFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((BlueActivity) getActivity()).saveDB();
+                ((BlueActivity) getActivity()).requestDB();
             }
         });
 
+        tvData = view.findViewById(R.id.tv_data);
 
         super.onViewCreated(view, savedInstanceState);
     }
@@ -89,11 +94,24 @@ public class ValuesFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constants.MESSAGE_READ:
-                    byte[] readBuf = (byte[]) msg.obj;
-                    // construct a string from the valid bytes in the buffer
-                    String readMessage = new String(readBuf, 0, msg.arg1);
+                    //byte[] readBuf = (byte[]) msg.obj;
+                    //String message = new String(readBuf, 0, msg.arg1);
+                    String message = (String) msg.obj;
+
+                    String task = "none";
+                    int idx = message.indexOf(TASK_DELIMITER);
+                    if(idx != -1){
+                        task = message.substring(0, idx);
+                        message = message.substring(idx+1);
+                    }
+
+                    if(task.equals(DATABASE_TASK)){
+                        tvData.setText("(" + message.length() + ")");
+                        tvData.append(message);
+                    }
+
                     String[] values;
-                    values = readMessage.split(",");
+                    values = message.split(",");
                     if(values.length == 5){
                         tvValue1.setText(values[0].trim());
                         tvValue2.setText(values[1].trim());

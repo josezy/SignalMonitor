@@ -1,43 +1,18 @@
 package com.example.jose.sensemonitor;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
-import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.telecom.ConnectionService;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
-import java.util.AbstractQueue;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by jose on 18/07/17.
@@ -91,6 +66,9 @@ public class BlueActivity extends AppCompatActivity implements communicate{
             case REQUEST_ENABLE_BT:
                 if(resultCode == Activity.RESULT_OK){
                     BlueFragmentTransaction();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Bluetooth activation rejected", Toast.LENGTH_LONG).show();
+                    finish();
                 }
                 break;
         }
@@ -99,12 +77,19 @@ public class BlueActivity extends AppCompatActivity implements communicate{
     private void BlueFragmentTransaction(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
+
         BlueFragment fragment = new BlueFragment();
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commitAllowingStateLoss();
     }
 
-    
+    public void ValuesFragmentTransaction(){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ValuesFragment ValsFragment = new ValuesFragment();
+        ft.replace(R.id.sample_content_fragment, ValsFragment);
+        ft.commit();
+    }
+
 
     @Override
     public void connectToDevice(BluetoothDevice device) {
@@ -112,10 +97,7 @@ public class BlueActivity extends AppCompatActivity implements communicate{
         mChatService.connect(device, true);
         // TODO: wait for successful connection and replace fragment
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ValuesFragment ValsFragment = new ValuesFragment();
-        ft.replace(R.id.sample_content_fragment,ValsFragment);
-        ft.commit();
+        ValuesFragmentTransaction();
     }
 
     public void setmChatServiceHandler(Handler mHand){
@@ -160,9 +142,11 @@ public class BlueActivity extends AppCompatActivity implements communicate{
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         GraphFragment graphyFragment = new GraphFragment();
+
         Bundle args = new Bundle();
         args.putInt(Constants.PLOT_ID, plotID);
         graphyFragment.setArguments(args);
+
         ft.replace(R.id.sample_content_fragment, graphyFragment);
         ft.addToBackStack(null);
         ft.commit();
@@ -173,7 +157,13 @@ public class BlueActivity extends AppCompatActivity implements communicate{
         finish();
     }
 
-    public void saveDB(){
-
+    public void requestDB(){
+        if(mChatService.getState() == mChatService.STATE_CONNECTED){
+            Log.d("[BICHO]","BT is connected... requesting data");
+            String b = "r\n";
+            mChatService.write(b.getBytes());
+        }else{
+            Toast.makeText(getApplicationContext(), "Bluetooth not connected", Toast.LENGTH_SHORT).show();
+        }
     }
 }
