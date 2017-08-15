@@ -447,6 +447,7 @@ public class BlueConnectionService {
 
         public void cancel() {
             try {
+                Log.d(TAG,"CANCEL 1");
                 mmSocket.close();
             } catch (IOException e) {
                 Log.e(TAG, "close() of connect " + mSocketType + " socket failed", e);
@@ -531,6 +532,7 @@ public class BlueConnectionService {
         public void cancel() {
             try {
                 mmSocket.close();
+                Log.d(TAG,"CANCEL 2");
             } catch (IOException e) {
                 Log.e(TAG, "close() of connect socket failed", e);
             }

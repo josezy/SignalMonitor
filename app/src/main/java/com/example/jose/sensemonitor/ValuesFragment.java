@@ -22,7 +22,9 @@ import android.widget.Toast;
 public class ValuesFragment extends Fragment {
 
     TextView tvValue1, tvValue2, tvValue3, tvValue4, tvValue5;
-    Button btViewMore1, btViewMore2, btViewMore3, btViewMore4, btViewMore5;
+//    Button btViewMore1, btViewMore2, btViewMore3, btViewMore4, btViewMore5;
+    Button btDisconnect;
+    Button btGetFile;
 
     public ValuesFragment() {
         // Required empty public constructor
@@ -44,11 +46,29 @@ public class ValuesFragment extends Fragment {
         tvValue4 = view.findViewById(R.id.tv_s4_value);
         tvValue5 = view.findViewById(R.id.tv_s5_value);
 
-        btViewMore1 = view.findViewById(R.id.btn_s1);
+        /*btViewMore1 = view.findViewById(R.id.btn_s1);
         btViewMore2 = view.findViewById(R.id.btn_s2);
         btViewMore3 = view.findViewById(R.id.btn_s3);
         btViewMore4 = view.findViewById(R.id.btn_s4);
-        btViewMore5 = view.findViewById(R.id.btn_s5);
+        btViewMore5 = view.findViewById(R.id.btn_s5);*/
+
+        btDisconnect = view.findViewById(R.id.bt_disconnect);
+        btDisconnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((BlueActivity) getActivity()).disconnectBluetooth();
+            }
+        });
+
+        btGetFile = view.findViewById(R.id.bt_getFile);
+        btGetFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((BlueActivity) getActivity()).saveDB();
+            }
+        });
+
+
         super.onViewCreated(view, savedInstanceState);
     }
 

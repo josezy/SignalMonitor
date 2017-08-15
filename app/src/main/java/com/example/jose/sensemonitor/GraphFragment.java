@@ -81,7 +81,7 @@ public class GraphFragment extends Fragment {
                         DataPoint point = new DataPoint(xPos, value);
                         mSeries.appendData(point, true, 50);
                         graph.addSeries(mSeries);
-                        xPos = xPos + 0.2;
+                        xPos = xPos + 0.5;
                     }
                     break;
             }

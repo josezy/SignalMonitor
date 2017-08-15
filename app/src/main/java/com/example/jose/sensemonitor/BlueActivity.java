@@ -15,8 +15,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.telecom.ConnectionService;
@@ -45,6 +47,12 @@ public class BlueActivity extends AppCompatActivity implements communicate{
 
     private BlueConnectionService mChatService = null;
 
+
+    // Intent request codes
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    private static final int REQUEST_ENABLE_BT = 3;
+
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,17 +73,45 @@ public class BlueActivity extends AppCompatActivity implements communicate{
         }.start();
     }
 
+
     void splashFinished(){
+
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        } else {
+            BlueFragmentTransaction();
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_ENABLE_BT:
+                if(resultCode == Activity.RESULT_OK){
+                    BlueFragmentTransaction();
+                }
+                break;
+        }
+    }
+
+    private void BlueFragmentTransaction(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
         BlueFragment fragment = new BlueFragment();
         transaction.replace(R.id.sample_content_fragment, fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
+
+    
 
     @Override
     public void connectToDevice(BluetoothDevice device) {
+
         mChatService.connect(device, true);
         // TODO: wait for successful connection and replace fragment
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ValuesFragment ValsFragment = new ValuesFragment();
         ft.replace(R.id.sample_content_fragment,ValsFragment);
@@ -132,4 +168,12 @@ public class BlueActivity extends AppCompatActivity implements communicate{
         ft.commit();
     }
 
+    public void disconnectBluetooth() {
+        //BlueFragmentTransaction();
+        finish();
+    }
+
+    public void saveDB(){
+
+    }
 }

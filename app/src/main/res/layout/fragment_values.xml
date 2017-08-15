@@ -7,11 +7,11 @@ android:paddingLeft="10dp"
 android:paddingRight="10dp"
 tools:context="com.example.jose.sensemonitor.BlueActivity">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingTop="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -33,9 +33,9 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:text="@string/s1_button"
         android:onClick="showMore"
         android:id="@+id/btn_s1"/>
-</LinearLayout>
+    </LinearLayout>
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -61,9 +61,9 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:text="@string/s2_button"
         android:onClick="showMore"
         android:id="@+id/btn_s2"/>
-</LinearLayout>
+    </LinearLayout>
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -89,9 +89,9 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:text="@string/s3_button"
         android:onClick="showMore"
         android:id="@+id/btn_s3"/>
-</LinearLayout>
+    </LinearLayout>
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -117,9 +117,9 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:text="@string/s4_button"
         android:onClick="showMore"
         android:id="@+id/btn_s4"/>
-</LinearLayout>
+    </LinearLayout>
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -145,6 +145,21 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:text="@string/s5_button"
         android:onClick="showMore"
         android:id="@+id/btn_s5"/>
-</LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/bt_getFile"
+        android:id="@+id/bt_getFile" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/bt_disconnect"
+        android:id="@+id/bt_disconnect"
+        android:visibility="gone"/>
 
 </LinearLayout>

@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,14 +39,10 @@ public class BlueFragment extends Fragment {
 
     private static final String TAG = "BlueFragment";
 
-    // Intent request codes
-    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
-    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
-    private static final int REQUEST_ENABLE_BT = 3;
-
     // Layout Views
     private ListView lvDevices;
     private Button mScanButton;
+    private ProgressBar progressBar;
 
     /**
      * Array adapter for the device list thread
@@ -79,11 +76,7 @@ public class BlueFragment extends Fragment {
         super.onStart();
         // If BT is not on, request that it be enabled.
         // setupChat() will then be called during onActivityResult
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-            // Otherwise, setup the chat session
-        } else {
+        if (mBluetoothAdapter.isEnabled()) {
             setupChat();
         }
     }
@@ -125,6 +118,9 @@ public class BlueFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         lvDevices = view.findViewById(R.id.blueListView);
         mScanButton = view.findViewById(R.id.scanButton);
+        progressBar = view.findViewById(R.id.simpleProgressBar);
+        progressBar.setIndeterminate(true);
+
 
     }
 
@@ -178,7 +174,7 @@ public class BlueFragment extends Fragment {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 devListArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             } else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-                Toast.makeText(getActivity().getApplicationContext(), getResources().getText(R.string.scanning),Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getResources().getText(R.string.scanning),Toast.LENGTH_LONG).show();
                 devListArrayAdapter.clear();
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 if (devListArrayAdapter.getCount() == 0) {
@@ -196,6 +192,7 @@ public class BlueFragment extends Fragment {
 
             mBluetoothAdapter.cancelDiscovery();
             BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+            progressBar.setVisibility(View.VISIBLE);
 
             connectDevice(device);
         }
