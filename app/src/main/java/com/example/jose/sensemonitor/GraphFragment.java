@@ -70,19 +70,26 @@ public class GraphFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constants.MESSAGE_READ:
-                    byte[] readBuf = (byte[]) msg.obj;
-                    // construct a string from the valid bytes in the buffer
-                    String readMessage = new String(readBuf, 0, msg.arg1);
-                    String[] values;
-                    values = readMessage.split(",");
-                    if(values.length == 5){
-                        double value = Double.valueOf(values[plotID-1].trim());
-                        //Toast.makeText(getContext(), xPos+","+value,Toast.LENGTH_SHORT).show();
-                        DataPoint point = new DataPoint(xPos, value);
-                        mSeries.appendData(point, true, 50);
-                        graph.addSeries(mSeries);
-                        xPos = xPos + 0.5;
+
+                    String message = (String) msg.obj;
+
+                    String task = "none";
+                    int idx = message.indexOf(Constants.TASK_DELIMITER);
+                    if(idx != -1){
+                        task = message.substring(0, idx);
+                        message = message.substring(idx+1);
                     }
+
+                    if(task.equals(Constants.REALTIME_TASK)){
+                        String[] values = message.split(",");
+                        if(values.length == 5){
+                            double value = Double.valueOf(values[plotID-1].trim());
+                            mSeries.appendData(new DataPoint(xPos, value), true, 50);
+                            graph.addSeries(mSeries);
+                            xPos = xPos + 0.5;
+                        }
+                    }
+
                     break;
             }
         }

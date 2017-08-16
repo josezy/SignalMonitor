@@ -228,20 +228,24 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:id="@+id/btn_s5"/>
     </LinearLayout>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:text="@string/bt_getFile"
-        android:id="@+id/bt_getFile" />
+        android:paddingTop="8dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_enableRT"
+            android:id="@+id/bt_enableRT" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/bt_disconnect"
-        android:id="@+id/bt_disconnect"
-        android:visibility="gone"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_getFile"
+            android:id="@+id/bt_getFile" />
+    </LinearLayout>
 
     <ProgressBar
         android:layout_width="wrap_content"

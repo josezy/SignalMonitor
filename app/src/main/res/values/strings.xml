@@ -48,6 +48,11 @@
     <string name="v3_tag">V3:</string>
     <string name="v4_tag">V4:</string>
     <string name="v5_tag">V5:</string>
+    <string name="invalid_task">BT: invalid task</string>
+    <string name="bt_unavailable">Bluetooth not connected</string>
+    <string name="btn_default">default</string>
+    <string name="bt_enableRT">MONITOREAR</string>
+    <string name="bt_disableRT">PARAR</string>
 
 
 </resources>

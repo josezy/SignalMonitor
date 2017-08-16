@@ -35,4 +35,7 @@ public interface Constants {
     // My constants c:
     String PLOT_ID = "PLOT_ID";
 
+    String DATABASE_TASK = "db";
+    String REALTIME_TASK = "rt";
+    char TASK_DELIMITER = ':';
 }

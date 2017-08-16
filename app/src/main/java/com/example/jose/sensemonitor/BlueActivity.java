@@ -158,12 +158,27 @@ public class BlueActivity extends AppCompatActivity implements communicate{
     }
 
     public void requestDB(){
-        if(mChatService.getState() == mChatService.STATE_CONNECTED){
+        if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
             Log.d("[BICHO]","BT is connected... requesting data");
-            String b = "r\n";
+            String b = "d\n";
             mChatService.write(b.getBytes());
         }else{
-            Toast.makeText(getApplicationContext(), "Bluetooth not connected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void enableRT(boolean enable){
+        if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
+            Log.d("[BICHO]","BT is connected... configuring RT");
+            String b;
+            if (enable) {
+                b = "r\n";
+            }else{
+                b = "t\n";
+            }
+            mChatService.write(b.getBytes());
+        }else{
+            Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
         }
     }
 }
