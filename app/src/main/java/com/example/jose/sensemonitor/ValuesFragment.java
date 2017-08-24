@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ import java.util.List;
 public class ValuesFragment extends Fragment {
 
     TextView tvValue1, tvValue2, tvValue3, tvValue4, tvValue5;
+    EditText etR1, etR2, etR3, etR4, etR5;
 
     Button btGetFile, btEnableRT;
     TextView tvData;
@@ -59,6 +62,12 @@ public class ValuesFragment extends Fragment {
         tvValue3 = view.findViewById(R.id.tv_s3_value);
         tvValue4 = view.findViewById(R.id.tv_s4_value);
         tvValue5 = view.findViewById(R.id.tv_s5_value);
+
+        etR1 = view.findViewById(R.id.res_val1);
+        etR2 = view.findViewById(R.id.res_val2);
+        etR3 = view.findViewById(R.id.res_val3);
+        etR4 = view.findViewById(R.id.res_val4);
+        etR5 = view.findViewById(R.id.res_val5);
 
         progBar = view.findViewById(R.id.file_progressBar);
         progBar.setIndeterminate(true);
@@ -104,6 +113,7 @@ public class ValuesFragment extends Fragment {
     public void onResume() {
         ((BlueActivity) getActivity()).setmChatServiceHandler(mHandler);
         super.onResume();
+        ((BlueActivity) getActivity()).requestStatus();
     }
 
     private final Handler mHandler = new Handler() {
@@ -139,6 +149,24 @@ public class ValuesFragment extends Fragment {
                             tvValue3.setText(values[2].trim());
                             tvValue4.setText(values[3].trim());
                             tvValue5.setText(values[4].trim());
+                        }
+
+                    }else if (task.equals(Constants.UPDATE_STATUS)){
+                        String[] values;
+                        values = message.split(",");
+                        if(values.length == 6){
+                            if(values[0].trim().equals("1")){
+                                btEnableRT.setText(R.string.bt_disableRT);
+                            }else{
+                                btEnableRT.setText(R.string.bt_enableRT);
+                            }
+                            etR1.setText(values[1].trim());
+                            etR2.setText(values[2].trim());
+                            etR3.setText(values[3].trim());
+                            etR3.setText(values[4].trim());
+                            etR5.setText(values[5].trim());
+                        }else{
+                            Toast.makeText(getContext(), "Error reading status", Toast.LENGTH_SHORT).show();
                         }
 
                     }else{

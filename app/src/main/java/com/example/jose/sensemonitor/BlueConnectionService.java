@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 import android.os.Handler;
@@ -482,6 +483,8 @@ public class BlueConnectionService {
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
             mState = STATE_CONNECTED;
+            Intent intent = new Intent("bluetooth_connected");
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
         }
 
         public void run() {
@@ -507,8 +510,9 @@ public class BlueConnectionService {
 
                         }while(ch != '\n');
 
-                        mHandler.obtainMessage(Constants.MESSAGE_READ, s.length(), -1, s)
-                                    .sendToTarget();
+                        if(mHandler != null){
+                            mHandler.obtainMessage(Constants.MESSAGE_READ, s.length(), -1, s).sendToTarget();
+                        }
 
                     }
 

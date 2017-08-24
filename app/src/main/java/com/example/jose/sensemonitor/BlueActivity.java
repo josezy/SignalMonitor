@@ -3,12 +3,16 @@ package com.example.jose.sensemonitor;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +24,7 @@ import android.widget.Toast;
 
 public class BlueActivity extends AppCompatActivity implements communicate{
 
-    private BlueConnectionService mChatService = null;
+    public BlueConnectionService mChatService = null;
 
 
     // Intent request codes
@@ -93,11 +97,7 @@ public class BlueActivity extends AppCompatActivity implements communicate{
 
     @Override
     public void connectToDevice(BluetoothDevice device) {
-
         mChatService.connect(device, true);
-        // TODO: wait for successful connection and replace fragment
-
-        ValuesFragmentTransaction();
     }
 
     public void setmChatServiceHandler(Handler mHand){
@@ -112,6 +112,25 @@ public class BlueActivity extends AppCompatActivity implements communicate{
         super.onStart();
     }
 
+    @Override
+    protected void onResume() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("bluetooth_connected"));
+        super.onResume();
+    }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("BICHO","Conectado!");
+            ValuesFragmentTransaction();
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onPause();
+    }
 
     @Override
     protected void onDestroy() {
@@ -176,6 +195,16 @@ public class BlueActivity extends AppCompatActivity implements communicate{
             }else{
                 b = "t\n";
             }
+            mChatService.write(b.getBytes());
+        }else{
+            Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void requestStatus() {
+        if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
+            Log.d("[BICHO]","BT is connected... requesting status");
+            String b = "s\n";
             mChatService.write(b.getBytes());
         }else{
             Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();

@@ -96,7 +96,8 @@ public class BlueFragment extends Fragment {
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
-        getActivity().registerReceiver(mReceiver, filter);
+        getContext().registerReceiver(mReceiver, filter);
+        //getActivity().registerReceiver(mReceiver, filter);
 
         doDiscovery();
 
