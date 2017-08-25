@@ -113,6 +113,8 @@ public class ValuesFragment extends Fragment {
         btSetRs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO check for empty fields
+
                 //send res values
                 List<String> Values = new ArrayList<>();
                 Values.add(etR1.getText().toString()+',');
