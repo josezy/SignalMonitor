@@ -222,6 +222,7 @@ public class BlueActivity extends AppCompatActivity implements communicate{
             }
             Log.d("[WRT]", b);
             mChatService.write(b.getBytes());
+            Toast.makeText(getApplicationContext(), R.string.RsChanged, Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
         }

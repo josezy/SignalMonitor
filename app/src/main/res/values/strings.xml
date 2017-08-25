@@ -55,6 +55,8 @@
     <string name="bt_disableRT">PARAR</string>
     <string name="bt_getRs">get R</string>
     <string name="bt_setRs">set R</string>
+    <string name="RsUpdated">Resistencias almacenadas</string>
+    <string name="RsChanged">Resistencias actualizadas</string>
 
 
 </resources>

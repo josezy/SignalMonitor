@@ -194,6 +194,7 @@ public class ValuesFragment extends Fragment {
                             etR3.setText(values[3].trim());
                             etR4.setText(values[4].trim());
                             etR5.setText(values[5].trim());
+                            Toast.makeText(getContext(), R.string.RsUpdated, Toast.LENGTH_SHORT).show();
                         }else{
                             Toast.makeText(getContext(), "Error reading status", Toast.LENGTH_SHORT).show();
                         }
