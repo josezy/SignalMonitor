@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.os.EnvironmentCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,7 @@ public class ValuesFragment extends Fragment {
     TextView tvValue1, tvValue2, tvValue3, tvValue4, tvValue5;
     EditText etR1, etR2, etR3, etR4, etR5;
 
-    Button btGetFile, btEnableRT;
+    Button btGetFile, btEnableRT, btGetRs, btSetRs;
     TextView tvData;
 
     ProgressBar progBar;
@@ -95,6 +97,31 @@ public class ValuesFragment extends Fragment {
                     Toast.makeText(getContext(), "OFF", Toast.LENGTH_SHORT).show();
                     ((BlueActivity) getActivity()).enableRT(false);
                 }
+            }
+        });
+
+        btGetRs = view.findViewById(R.id.bt_getRs);
+        btSetRs = view.findViewById(R.id.bt_setRs);
+
+        btGetRs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((BlueActivity) getActivity()).requestStatus();
+            }
+        });
+
+        btSetRs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //send res values
+                List<String> Values = new ArrayList<>();
+                Values.add(etR1.getText().toString()+',');
+                Values.add(etR2.getText().toString()+',');
+                Values.add(etR3.getText().toString()+',');
+                Values.add(etR4.getText().toString()+',');
+                Values.add(etR5.getText().toString()+'\n');
+
+                ((BlueActivity) getActivity()).sendRsValues(Values);
             }
         });
 
@@ -163,7 +190,7 @@ public class ValuesFragment extends Fragment {
                             etR1.setText(values[1].trim());
                             etR2.setText(values[2].trim());
                             etR3.setText(values[3].trim());
-                            etR3.setText(values[4].trim());
+                            etR4.setText(values[4].trim());
                             etR5.setText(values[5].trim());
                         }else{
                             Toast.makeText(getContext(), "Error reading status", Toast.LENGTH_SHORT).show();

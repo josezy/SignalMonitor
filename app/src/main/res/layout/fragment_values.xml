@@ -246,6 +246,24 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
             android:text="@string/bt_getFile"
             android:id="@+id/bt_getFile" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="8dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_getRs"
+            android:id="@+id/bt_getRs" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_setRs"
+            android:id="@+id/bt_setRs" />
+    </LinearLayout>
 
     <ProgressBar
         android:layout_width="wrap_content"

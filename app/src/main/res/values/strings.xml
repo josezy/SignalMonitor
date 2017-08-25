@@ -53,6 +53,8 @@
     <string name="btn_default">default</string>
     <string name="bt_enableRT">MONITOREAR</string>
     <string name="bt_disableRT">PARAR</string>
+    <string name="bt_getRs">get R</string>
+    <string name="bt_setRs">set R</string>
 
 
 </resources>

@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.List;
+
 /**
  * Created by jose on 18/07/17.
  */
@@ -205,6 +207,20 @@ public class BlueActivity extends AppCompatActivity implements communicate{
         if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
             Log.d("[BICHO]","BT is connected... requesting status");
             String b = "s\n";
+            mChatService.write(b.getBytes());
+        }else{
+            Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void sendRsValues(List<String> values) {
+        if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
+            Log.d("[BICHO]","BT is connected... sending Rs values");
+            String b = "z";
+            for (String val : values) {
+                b = b.concat(val);
+            }
+            Log.d("[WRT]", b);
             mChatService.write(b.getBytes());
         }else{
             Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
