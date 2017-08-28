@@ -38,7 +38,7 @@ import java.util.List;
 public class ValuesFragment extends Fragment {
 
     TextView tvValue1, tvValue2, tvValue3, tvValue4, tvValue5;
-    EditText etR1, etR2, etR3, etR4, etR5;
+    EditText etR1, etR2, etR3, etR4, etR5, etRata;
 
     Button btGetFile, btEnableRT, btGetRs, btSetRs;
     TextView tvData;
@@ -71,6 +71,8 @@ public class ValuesFragment extends Fragment {
         etR4 = view.findViewById(R.id.res_val4);
         etR5 = view.findViewById(R.id.res_val5);
 
+        etRata = view.findViewById(R.id.et_rata);
+
         progBar = view.findViewById(R.id.file_progressBar);
         progBar.setIndeterminate(true);
 
@@ -90,11 +92,11 @@ public class ValuesFragment extends Fragment {
             public void onClick(View view) {
                 if (btEnableRT.getText().equals(getString(R.string.bt_enableRT))){
                     btEnableRT.setText(R.string.bt_disableRT);
-                    Toast.makeText(getContext(), "ON", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "ON", Toast.LENGTH_SHORT).show();
                     ((BlueActivity) getActivity()).enableRT(true);
                 }else{
                     btEnableRT.setText(R.string.bt_enableRT);
-                    Toast.makeText(getContext(), "OFF", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "OFF", Toast.LENGTH_SHORT).show();
                     ((BlueActivity) getActivity()).enableRT(false);
                 }
             }
@@ -121,7 +123,8 @@ public class ValuesFragment extends Fragment {
                 Values.add(etR2.getText().toString()+',');
                 Values.add(etR3.getText().toString()+',');
                 Values.add(etR4.getText().toString()+',');
-                Values.add(etR5.getText().toString()+'\n');
+                Values.add(etR5.getText().toString()+',');
+                Values.add(etRata.getText().toString()+'\n');
 
                 ((BlueActivity) getActivity()).sendRsValues(Values);
             }
@@ -161,46 +164,54 @@ public class ValuesFragment extends Fragment {
                         message = message.substring(idx+1);
                     }
 
-                    if(task.equals(Constants.DATABASE_TASK)){
-                        saveCSVdata(message);
-                        tvData.setText("(" + message.length() + ")");
-                        //tvData.append(message);
+                    switch (task) {
+                        case Constants.DATABASE_TASK:
+                            saveCSVdata(message);
+                            tvData.setText("(" + message.length() + ")");
+                            //tvData.append(message);
 
-                        //TODO enable button
-                        progBar.setVisibility(View.GONE);
+                            //TODO enable button
+                            progBar.setVisibility(View.GONE);
 
-                    }else if (task.equals(Constants.REALTIME_TASK)){
-                        String[] values;
-                        values = message.split(",");
-                        if(values.length == 5){
-                            tvValue1.setText(values[0].trim());
-                            tvValue2.setText(values[1].trim());
-                            tvValue3.setText(values[2].trim());
-                            tvValue4.setText(values[3].trim());
-                            tvValue5.setText(values[4].trim());
-                        }
-
-                    }else if (task.equals(Constants.UPDATE_STATUS)){
-                        String[] values;
-                        values = message.split(",");
-                        if(values.length == 6){
-                            if(values[0].trim().equals("1")){
-                                btEnableRT.setText(R.string.bt_disableRT);
-                            }else{
-                                btEnableRT.setText(R.string.bt_enableRT);
+                            break;
+                        case Constants.REALTIME_TASK: {
+                            String[] values;
+                            values = message.split(",");
+                            if (values.length == 5) {
+                                tvValue1.setText(values[0].trim());
+                                tvValue2.setText(values[1].trim());
+                                tvValue3.setText(values[2].trim());
+                                tvValue4.setText(values[3].trim());
+                                tvValue5.setText(values[4].trim());
                             }
-                            etR1.setText(values[1].trim());
-                            etR2.setText(values[2].trim());
-                            etR3.setText(values[3].trim());
-                            etR4.setText(values[4].trim());
-                            etR5.setText(values[5].trim());
-                            Toast.makeText(getContext(), R.string.RsUpdated, Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(getContext(), "Error reading status", Toast.LENGTH_SHORT).show();
-                        }
 
-                    }else{
-                        Toast.makeText(getContext(), R.string.invalid_task, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case Constants.UPDATE_STATUS: {
+                            String[] values;
+                            values = message.split(",");
+                            if (values.length == 7) {
+                                if (values[0].trim().equals("1")) {
+                                    btEnableRT.setText(R.string.bt_disableRT);
+                                } else {
+                                    btEnableRT.setText(R.string.bt_enableRT);
+                                }
+                                etR1.setText(values[1].trim());
+                                etR2.setText(values[2].trim());
+                                etR3.setText(values[3].trim());
+                                etR4.setText(values[4].trim());
+                                etR5.setText(values[5].trim());
+                                etRata.setText(values[6].trim());
+                                Toast.makeText(getContext(), R.string.RsUpdated, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Error reading status", Toast.LENGTH_SHORT).show();
+                            }
+
+                            break;
+                        }
+                        default:
+                            Toast.makeText(getContext(), R.string.invalid_task, Toast.LENGTH_SHORT).show();
+                            break;
                     }
 
                     break;
@@ -238,7 +249,7 @@ public class ValuesFragment extends Fragment {
                 writer = new CSVWriter(new FileWriter(filePath));
                 writer.writeAll(data);
                 writer.close();
-                Toast.makeText(getContext(), "File Saved!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.file_saved, Toast.LENGTH_LONG).show();
                 Log.d("[BICHO]", "File saved??");
             } catch (IOException e) {
                 Log.d("[BICHO]", "Writer ERROR");

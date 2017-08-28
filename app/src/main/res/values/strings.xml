@@ -43,20 +43,23 @@
     <string name="bt_disconnect">Disconnect</string>
     <string name="bt_getFile">Descargar Datos</string>
     <string name="default_res">1</string>
-    <string name="v1_tag"> V1:</string>
-    <string name="v2_tag">V2:</string>
-    <string name="v3_tag">V3:</string>
-    <string name="v4_tag">V4:</string>
-    <string name="v5_tag">V5:</string>
+    <string name="v1_tag">I1:</string>
+    <string name="v2_tag">I2:</string>
+    <string name="v3_tag">I3:</string>
+    <string name="v4_tag">I4:</string>
+    <string name="v5_tag">I5:</string>
     <string name="invalid_task">BT: invalid task</string>
     <string name="bt_unavailable">Bluetooth not connected</string>
     <string name="btn_default">default</string>
     <string name="bt_enableRT">MONITOREAR</string>
     <string name="bt_disableRT">PARAR</string>
-    <string name="bt_getRs">get R</string>
-    <string name="bt_setRs">set R</string>
-    <string name="RsUpdated">Valores sincronizados</string>
-    <string name="RsChanged">Resistencias actualizadas</string>
+    <string name="bt_getRs">ACTUALIZAR</string>
+    <string name="bt_setRs">MODIFICAR</string>
+    <string name="RsUpdated">Valores actuales</string>
+    <string name="RsChanged">Valores modificados!</string>
+    <string name="file_saved">Archivo guardado!</string>
+    <string name="rata">Periodo:</string>
+    <string name="seg">seg.</string>
 
 
 </resources>

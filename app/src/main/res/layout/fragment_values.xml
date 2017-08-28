@@ -7,11 +7,42 @@ android:paddingLeft="10dp"
 android:paddingRight="10dp"
 tools:context="com.example.jose.sensemonitor.BlueActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="8dp">
+        android:paddingTop="@dimen/padTop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="22sp"
+            android:paddingTop="8dp"
+            android:text="@string/rata"/>
+        <EditText
+            android:layout_width="@dimen/rata_width"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:textCursorDrawable="@null"
+            android:text="@string/default_res"
+            android:layout_gravity="end"
+            android:textAlignment="textEnd"
+            android:id="@+id/et_rata"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="22sp"
+            android:paddingTop="8dp"
+            android:text="@string/seg" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/padTop">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -56,7 +87,7 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="8dp">
+    android:paddingTop="@dimen/padTop">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -100,7 +131,7 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="8dp">
+    android:paddingTop="@dimen/padTop">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -144,7 +175,7 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="8dp">
+    android:paddingTop="@dimen/padTop">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -188,7 +219,7 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="8dp">
+    android:paddingTop="@dimen/padTop">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -233,7 +264,7 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:paddingTop="8dp">
+        android:paddingTop="@dimen/padTop">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -251,7 +282,7 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:paddingTop="8dp">
+        android:paddingTop="@dimen/padTop">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
