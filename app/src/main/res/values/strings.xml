@@ -60,6 +60,7 @@
     <string name="file_saved">Archivo guardado!</string>
     <string name="rata">Periodo:</string>
     <string name="seg">seg.</string>
+    <string name="empty_fields">Campos vacíos!</string>
 
 
 </resources>

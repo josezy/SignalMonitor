@@ -80,7 +80,8 @@ public class ValuesFragment extends Fragment {
         btGetFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO disable button
+                //TODOne disable button
+                btGetFile.setEnabled(false);
                 progBar.setVisibility(View.VISIBLE);
                 ((BlueActivity) getActivity()).requestDB();
             }
@@ -115,18 +116,28 @@ public class ValuesFragment extends Fragment {
         btSetRs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO check for empty fields
+                //TODOne check for empty fields
+                String etR1_text = etR1.getText().toString().trim();
+                String etR2_text = etR2.getText().toString().trim();
+                String etR3_text = etR3.getText().toString().trim();
+                String etR4_text = etR4.getText().toString().trim();
+                String etR5_text = etR5.getText().toString().trim();
+                String etRata_text = etRata.getText().toString().trim();
 
-                //send res values
-                List<String> Values = new ArrayList<>();
-                Values.add(etR1.getText().toString()+',');
-                Values.add(etR2.getText().toString()+',');
-                Values.add(etR3.getText().toString()+',');
-                Values.add(etR4.getText().toString()+',');
-                Values.add(etR5.getText().toString()+',');
-                Values.add(etRata.getText().toString()+'\n');
+                if(etR1_text.isEmpty()||etR2_text.isEmpty()||etR3_text.isEmpty()||etR4_text.isEmpty()||etR5_text.isEmpty()||etRata_text.isEmpty()) {
+                    Toast.makeText(getContext(), R.string.empty_fields, Toast.LENGTH_SHORT).show();
+                } else {
+                    //send res values
+                    List<String> Values = new ArrayList<>();
+                    Values.add(etR1_text+',');
+                    Values.add(etR2_text+',');
+                    Values.add(etR3_text+',');
+                    Values.add(etR4_text+',');
+                    Values.add(etR5_text+',');
+                    Values.add(etRata_text+'\n');
+                    ((BlueActivity) getActivity()).sendRsValues(Values);
+                }
 
-                ((BlueActivity) getActivity()).sendRsValues(Values);
             }
         });
 
@@ -170,7 +181,8 @@ public class ValuesFragment extends Fragment {
                             tvData.setText("(" + message.length() + ")");
                             //tvData.append(message);
 
-                            //TODO enable button
+                            //TODOne enable button
+                            btGetFile.setEnabled(true);
                             progBar.setVisibility(View.GONE);
 
                             break;
