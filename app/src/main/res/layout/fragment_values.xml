@@ -1,0 +1,317 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:paddingLeft="10dp"
+android:paddingRight="10dp"
+tools:context="com.example.jose.sensemonitor.BlueActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/padTop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="22sp"
+            android:paddingTop="8dp"
+            android:text="@string/rata"/>
+        <EditText
+            android:layout_width="@dimen/rata_width"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:textCursorDrawable="@null"
+            android:text="@string/default_res"
+            android:layout_gravity="end"
+            android:textAlignment="textEnd"
+            android:id="@+id/et_rata"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="22sp"
+            android:paddingTop="8dp"
+            android:text="@string/seg" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/padTop">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s1_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v1_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s1_value"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s1_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s1"/>
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/padTop">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s2_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val2"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v2_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s2_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s2_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s2"/>
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/padTop">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s3_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val3"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v3_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s3_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s3_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s3"/>
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/padTop">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s4_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val4"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v4_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s4_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s4_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s4"/>
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/padTop">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:text="@string/s5_tag"/>
+    <EditText
+        android:layout_width="@dimen/res_width"
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:text="@string/default_res"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:id="@+id/res_val5"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:paddingTop="8dp"
+        android:padding="@dimen/vol_padding"
+        android:text="@string/v5_tag"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:id="@+id/tv_s5_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/s5_button"
+        android:onClick="showMore"
+        android:id="@+id/btn_s5"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="@dimen/padTop">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_enableRT"
+            android:id="@+id/bt_enableRT" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_getFile"
+            android:id="@+id/bt_getFile" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="@dimen/padTop">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_getRs"
+            android:id="@+id/bt_getRs" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_setRs"
+            android:id="@+id/bt_setRs" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/file_progressBar"
+        style="@android:style/Widget.ProgressBar.Large"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_data"/>
+    </ScrollView>
+
+
+</LinearLayout>

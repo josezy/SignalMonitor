@@ -1,170 +1,230 @@
 package com.example.jose.sensemonitor;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.AbstractQueue;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.UUID;
+import java.util.List;
 
 /**
  * Created by jose on 18/07/17.
  */
 
-public class BlueActivity extends Activity {
+public class BlueActivity extends AppCompatActivity implements communicate{
 
-    private BluetoothAdapter BA = null;
-    ArrayList devicesList = new ArrayList<>();
-    ListView lvDevices;
-    ProgressBar progBar;
-    BluetoothSocket btSocket = null;
-    static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    public BlueConnectionService mChatService = null;
+
+
+    // Intent request codes
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    private static final int REQUEST_ENABLE_BT = 3;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.splash);
 
-        //display the logo during 3 seconds,
-        new CountDownTimer(3000,1000){
+        //display the logo during 2 seconds,
+        new CountDownTimer(2000,1000){
             @Override
             public void onTick(long millisUntilFinished){}
 
             @Override
             public void onFinish(){
+                getSupportActionBar().show();
+                setContentView(R.layout.blue_layout);
                 splashFinished();
             }
         }.start();
     }
 
 
-    protected void splashFinished(){
-        BlueActivity.this.setContentView(R.layout.blue_layout);
-        lvDevices = findViewById(R.id.blueListView);
-        progBar = findViewById(R.id.progBar);
+    void splashFinished(){
 
-        BA = BluetoothAdapter.getDefaultAdapter();
-        if (!BA.isEnabled()) {
-            BA.enable();
-            /*Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, 1);*/
-            Toast.makeText(getApplicationContext(), "Bluetooth ON",Toast.LENGTH_SHORT).show();
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        } else {
+            BlueFragmentTransaction();
         }
-
-        IntentFilter filter = new IntentFilter();
-
-        filter.addAction(BluetoothDevice.ACTION_FOUND);
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-
-        registerReceiver(mReceiver, filter);
-        BA.startDiscovery();
     }
 
-    private AdapterView.OnItemClickListener deviceListClickListener = new AdapterView.OnItemClickListener() {
-        public void onItemClick (AdapterView av, View v, int arg2, long arg3) {
-            String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
-            BA.cancelDiscovery();
-            new connectBT().execute(address);
-        }
-    };
 
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_ENABLE_BT:
+                if(resultCode == Activity.RESULT_OK){
+                    BlueFragmentTransaction();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Bluetooth activation rejected", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+        }
+    }
+
+    private void BlueFragmentTransaction(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+
+        BlueFragment fragment = new BlueFragment();
+        transaction.replace(R.id.sample_content_fragment, fragment);
+        transaction.commitAllowingStateLoss();
+    }
+
+    public void ValuesFragmentTransaction(){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ValuesFragment ValsFragment = new ValuesFragment();
+        ft.replace(R.id.sample_content_fragment, ValsFragment);
+        ft.commit();
+    }
+
+
+    @Override
+    public void connectToDevice(BluetoothDevice device) {
+        mChatService.connect(device, true);
+    }
+
+    public void setmChatServiceHandler(Handler mHand){
+        mChatService.setHandler(mHand);
+    }
+
+    @Override
+    protected void onStart() {
+        // Initialize the BluetoothChatService to perform bluetooth connections
+        mChatService = new BlueConnectionService(BlueActivity.this);
+
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("bluetooth_connected"));
+        super.onResume();
+    }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-                Toast.makeText(getApplicationContext(), "Scanning...",Toast.LENGTH_SHORT).show();
-                devicesList.clear();
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                Toast.makeText(getApplicationContext(), "Searching finished",Toast.LENGTH_SHORT).show();
-            } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                //bluetooth device found
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                devicesList.add(device.getName() + "\n" + device.getAddress());
-
-            }
-
-            final ArrayAdapter adapter = new ArrayAdapter<String>(BlueActivity.this,
-                    android.R.layout.simple_list_item_1, devicesList);
-
-            lvDevices.setAdapter(adapter);
-            lvDevices.setOnItemClickListener(deviceListClickListener);
+            Log.d("BICHO","Conectado!");
+            ValuesFragmentTransaction();
         }
     };
 
-    public void searchDevices(View view){
-        BA.startDiscovery();
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(mReceiver);
         super.onDestroy();
     }
 
-    private class connectBT extends AsyncTask<String, Void, Void>{
-
-        @Override
-        protected void onPreExecute() {
-            progBar.setVisibility(View.VISIBLE);
-            super.onPreExecute();
+    public void showMore(View view){
+        int plotID = 0;
+        switch (view.getId()){
+            case R.id.btn_s1:
+                plotID = 1;
+                break;
+            case R.id.btn_s2:
+                plotID = 2;
+                break;
+            case R.id.btn_s3:
+                plotID = 3;
+                break;
+            case R.id.btn_s4:
+                plotID = 4;
+                break;
+            case R.id.btn_s5:
+                plotID = 5;
+                break;
+            default:break;
         }
+        //Toast.makeText(getApplicationContext(), "Plot "+plotID, Toast.LENGTH_SHORT).show();
 
-        @Override
-        protected Void doInBackground(String... params) {
-            String address = params[0];
-            try {
-                BluetoothDevice remoteDevice = BA.getRemoteDevice(address);
-                btSocket = remoteDevice.createRfcommSocketToServiceRecord(myUUID);
-                btSocket.connect();
-            }catch (IOException e){
-                e.printStackTrace();
-                try {
-                    btSocket.close();
-                } catch (IOException closeException) { closeException.printStackTrace(); }
-            }
-            return null;
-        }
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        GraphFragment graphyFragment = new GraphFragment();
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            progBar.setVisibility(View.INVISIBLE);
+        Bundle args = new Bundle();
+        args.putInt(Constants.PLOT_ID, plotID);
+        graphyFragment.setArguments(args);
 
-            try{
-                btSocket.getOutputStream().write("BLUENNECTED!".getBytes());
-            }catch (IOException e){
-                e.printStackTrace();
-            }
+        ft.replace(R.id.sample_content_fragment, graphyFragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+    public void disconnectBluetooth() {
+        //BlueFragmentTransaction();
+        finish();
+    }
+
+    public void requestDB(){
+        if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
+            Log.d("[BICHO]","BT is connected... requesting data");
+            String b = "d\n";
+            mChatService.write(b.getBytes());
+        }else{
+            Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
         }
     }
 
+    public void enableRT(boolean enable){
+        if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
+            Log.d("[BICHO]","BT is connected... configuring RT");
+            String b;
+            if (enable) {
+                b = "r\n";
+            }else{
+                b = "t\n";
+            }
+            mChatService.write(b.getBytes());
+        }else{
+            Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void requestStatus() {
+        if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
+            Log.d("[BICHO]","BT is connected... requesting status");
+            String b = "s\n";
+            mChatService.write(b.getBytes());
+        }else{
+            Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void sendRsValues(List<String> values) {
+        if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
+            Log.d("[BICHO]","BT is connected... sending Rs values");
+            String b = "z";
+            for (String val : values) {
+                b = b.concat(val);
+            }
+            Log.d("[WRT]", b);
+            mChatService.write(b.getBytes());
+            Toast.makeText(getApplicationContext(), R.string.RsChanged, Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
+        }
+    }
 }
