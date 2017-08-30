@@ -1,6 +1,7 @@
 package com.example.jose.sensemonitor;
 
 
+import android.app.Dialog;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.os.Environment;
@@ -45,6 +46,8 @@ public class ValuesFragment extends Fragment {
 
     ProgressBar progBar;
 
+    Dialog mOverlayDialog;
+
     public ValuesFragment() {
         // Required empty public constructor
     }
@@ -59,6 +62,9 @@ public class ValuesFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        mOverlayDialog = new Dialog(getContext(), android.R.style.Theme_Panel);
+
         tvValue1 = view.findViewById(R.id.tv_s1_value);
         tvValue2 = view.findViewById(R.id.tv_s2_value);
         tvValue3 = view.findViewById(R.id.tv_s3_value);
@@ -80,9 +86,11 @@ public class ValuesFragment extends Fragment {
         btGetFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODOne disable button
-                btGetFile.setEnabled(false);
                 progBar.setVisibility(View.VISIBLE);
+
+                mOverlayDialog.setCancelable(false);
+                mOverlayDialog.show();
+
                 ((BlueActivity) getActivity()).requestDB();
             }
         });
@@ -181,8 +189,7 @@ public class ValuesFragment extends Fragment {
                             tvData.setText("(" + message.length() + ")");
                             //tvData.append(message);
 
-                            //TODOne enable button
-                            btGetFile.setEnabled(true);
+                            mOverlayDialog.hide();
                             progBar.setVisibility(View.GONE);
 
                             break;

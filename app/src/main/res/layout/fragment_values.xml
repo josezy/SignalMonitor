@@ -301,6 +301,7 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/file_progressBar"
+        style="@android:style/Widget.ProgressBar.Large"
         android:visibility="gone"/>
 
     <ScrollView
