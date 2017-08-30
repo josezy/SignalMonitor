@@ -43,12 +43,12 @@
     <string name="bt_disconnect">Disconnect</string>
     <string name="bt_getFile">Descargar Datos</string>
     <string name="default_res">1</string>
-    <string name="v1_tag">I1:</string>
-    <string name="v2_tag">I2:</string>
-    <string name="v3_tag">I3:</string>
-    <string name="v4_tag">I4:</string>
-    <string name="v5_tag">I5:</string>
-    <string name="invalid_task">BT: invalid task</string>
+    <string name="v1_tag">V1:</string>
+    <string name="v2_tag">V2:</string>
+    <string name="v3_tag">V3:</string>
+    <string name="v4_tag">V4:</string>
+    <string name="v5_tag">V5:</string>
+    <string name="invalid_task">BT: communication error</string>
     <string name="bt_unavailable">Bluetooth not connected</string>
     <string name="btn_default">default</string>
     <string name="bt_enableRT">MONITOREAR</string>
@@ -61,6 +61,7 @@
     <string name="rata">Periodo:</string>
     <string name="seg">seg.</string>
     <string name="empty_fields">Campos vacíos!</string>
+    <string name="file_error">SD file error!</string>
 
 
 </resources>

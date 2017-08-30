@@ -39,4 +39,5 @@ public interface Constants {
     String DATABASE_TASK = "db";
     String REALTIME_TASK = "rt";
     String UPDATE_STATUS = "us";
+    String FILE_ERROR = "fe";
 }

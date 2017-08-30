@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -46,12 +47,9 @@ public class ValuesFragment extends Fragment {
 
     ProgressBar progBar;
 
-    Dialog mOverlayDialog;
-
     public ValuesFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,9 +60,6 @@ public class ValuesFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-        mOverlayDialog = new Dialog(getContext(), android.R.style.Theme_Panel);
-
         tvValue1 = view.findViewById(R.id.tv_s1_value);
         tvValue2 = view.findViewById(R.id.tv_s2_value);
         tvValue3 = view.findViewById(R.id.tv_s3_value);
@@ -88,8 +83,8 @@ public class ValuesFragment extends Fragment {
             public void onClick(View view) {
                 progBar.setVisibility(View.VISIBLE);
 
-                mOverlayDialog.setCancelable(false);
-                mOverlayDialog.show();
+                getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                 ((BlueActivity) getActivity()).requestDB();
             }
@@ -189,7 +184,7 @@ public class ValuesFragment extends Fragment {
                             tvData.setText("(" + message.length() + ")");
                             //tvData.append(message);
 
-                            mOverlayDialog.hide();
+                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             progBar.setVisibility(View.GONE);
 
                             break;
@@ -227,6 +222,9 @@ public class ValuesFragment extends Fragment {
                             }
 
                             break;
+                        }
+                        case Constants.FILE_ERROR:{
+                            Toast.makeText(getContext(), R.string.file_error, Toast.LENGTH_SHORT).show();
                         }
                         default:
                             Toast.makeText(getContext(), R.string.invalid_task, Toast.LENGTH_SHORT).show();
