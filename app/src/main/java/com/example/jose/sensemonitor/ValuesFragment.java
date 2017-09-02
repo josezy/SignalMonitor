@@ -42,7 +42,7 @@ public class ValuesFragment extends Fragment {
     TextView tvValue1, tvValue2, tvValue3, tvValue4, tvValue5;
     EditText etR1, etR2, etR3, etR4, etR5, etRata;
 
-    Button btGetFile, btEnableRT, btGetRs, btSetRs;
+    Button btGetFile, btEnableRT, btGetRs, btSetRs, btErase;
     TextView tvData;
 
     ProgressBar progBar;
@@ -140,7 +140,14 @@ public class ValuesFragment extends Fragment {
                     Values.add(etRata_text+'\n');
                     ((BlueActivity) getActivity()).sendRsValues(Values);
                 }
+            }
+        });
 
+        btErase = view.findViewById(R.id.bt_rmData);
+        btErase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((BlueActivity) getActivity()).eraseData();
             }
         });
 

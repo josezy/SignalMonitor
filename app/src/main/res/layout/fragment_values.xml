@@ -270,19 +270,6 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
             android:layout_height="wrap_content"
             android:text="@string/bt_enableRT"
             android:id="@+id/bt_enableRT" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bt_getFile"
-            android:id="@+id/bt_getFile" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingTop="@dimen/padTop">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -294,6 +281,26 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
             android:layout_height="wrap_content"
             android:text="@string/bt_setRs"
             android:id="@+id/bt_setRs" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="@dimen/padTop">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_getFile"
+            android:id="@+id/bt_getFile" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_rmData"
+            android:textColor="@color/blood"
+            android:id="@+id/bt_rmData" />
+
     </LinearLayout>
 
     <ProgressBar

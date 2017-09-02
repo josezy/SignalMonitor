@@ -62,6 +62,7 @@
     <string name="seg">seg.</string>
     <string name="empty_fields">Campos vacíos!</string>
     <string name="file_error">SD file error!</string>
+    <string name="bt_rmData">BORRAR DATOS</string>
 
 
 </resources>

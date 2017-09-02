@@ -227,4 +227,14 @@ public class BlueActivity extends AppCompatActivity implements communicate{
             Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void eraseData() {
+        if(mChatService.getState() == BlueConnectionService.STATE_CONNECTED){
+            Log.d("[BICHO]","BT is connected... erasing data");
+            String b = "e\n";
+            mChatService.write(b.getBytes());
+        }else{
+            Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
+        }
+    }
 }
