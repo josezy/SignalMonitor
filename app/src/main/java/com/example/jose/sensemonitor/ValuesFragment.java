@@ -43,7 +43,6 @@ public class ValuesFragment extends Fragment {
     EditText etR1, etR2, etR3, etR4, etR5, etRata;
 
     Button btGetFile, btEnableRT, btGetRs, btSetRs, btErase;
-    TextView tvData;
 
     ProgressBar progBar;
 
@@ -151,8 +150,6 @@ public class ValuesFragment extends Fragment {
             }
         });
 
-        tvData = view.findViewById(R.id.tv_data);
-
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -188,8 +185,6 @@ public class ValuesFragment extends Fragment {
                     switch (task) {
                         case Constants.DATABASE_TASK:
                             saveCSVdata(message);
-                            tvData.setText("(" + message.length() + ")");
-                            //tvData.append(message);
 
                             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             progBar.setVisibility(View.GONE);

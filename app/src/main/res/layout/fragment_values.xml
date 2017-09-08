@@ -1,11 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:orientation="vertical"
-android:paddingLeft="10dp"
-android:paddingRight="10dp"
 tools:context="com.example.jose.sensemonitor.BlueActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
 
 
     <LinearLayout
@@ -311,14 +316,7 @@ tools:context="com.example.jose.sensemonitor.BlueActivity">
         style="@android:style/Widget.ProgressBar.Large"
         android:visibility="gone"/>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="120dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_data"/>
-    </ScrollView>
-
 
 </LinearLayout>
+
+</ScrollView>

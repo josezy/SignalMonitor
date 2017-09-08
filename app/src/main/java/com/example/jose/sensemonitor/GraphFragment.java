@@ -48,8 +48,8 @@ public class GraphFragment extends Fragment {
         graph.addSeries(mSeries);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-1.5d);
-        graph.getViewport().setMaxY(1.5d);
+        graph.getViewport().setMinY(0d);
+        graph.getViewport().setMaxY(5d);
         graph.getViewport().setMinX(0d);
         graph.getViewport().setMaxX(10d);
 

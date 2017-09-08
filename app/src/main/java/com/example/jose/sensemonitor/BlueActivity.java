@@ -233,6 +233,7 @@ public class BlueActivity extends AppCompatActivity implements communicate{
             Log.d("[BICHO]","BT is connected... erasing data");
             String b = "e\n";
             mChatService.write(b.getBytes());
+            Toast.makeText(getApplicationContext(), R.string.dataErased, Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(getApplicationContext(), R.string.bt_unavailable, Toast.LENGTH_SHORT).show();
         }
