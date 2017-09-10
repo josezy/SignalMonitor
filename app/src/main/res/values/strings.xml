@@ -14,7 +14,7 @@
 
     <string name="graph_title">Gráfica sensor</string>
 
-    <string name="blue_button">Buscar&#8230;</string>
+    <string name="blue_button">Buscar</string>
 
     <string name="error_connect_failed">ERROR CONNECT FAILED</string>
     <string name="error_connect_lost">ERROR CONNECT LOST</string>
