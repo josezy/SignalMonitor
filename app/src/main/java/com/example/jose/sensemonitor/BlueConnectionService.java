@@ -2,6 +2,7 @@ package com.example.jose.sensemonitor;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
@@ -35,11 +36,12 @@ public class BlueConnectionService {
 
     // Unique UUID for this application
     private static final UUID MY_UUID_SECURE =
-            UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+            //UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
             //UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+            UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
     private static final UUID MY_UUID_INSECURE =
             UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-            //UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
     // Member fields
     private final BluetoothAdapter mAdapter;
@@ -410,17 +412,21 @@ public class BlueConnectionService {
             setName("ConnectThread" + mSocketType);
 
             // Always cancel discovery because it will slow down a connection
-            mAdapter.cancelDiscovery();
+//            mAdapter.cancelDiscovery();
+            BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
 
             // Make a connection to the BluetoothSocket
             try {
                 // This is a blocking call and will only return on a
                 // successful connection or an exception
                 Log.d("[BICHO]","connectirng socket");
+                Log.d("[BT]",mmSocket.toString());
                 mmSocket.connect();
+
             } catch (IOException e) {
                 // Close the socket
                 Log.d("[BICHO]","shit happens");
+                e.printStackTrace();
                 try {
                     mmSocket.close();
                 } catch (IOException e2) {
