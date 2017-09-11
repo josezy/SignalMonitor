@@ -271,6 +271,9 @@ public class BlueConnectionService {
         // Update UI title
         updateUserInterfaceTitle();
 
+        Intent intent = new Intent(Constants.BT_CONNECT_FAILED);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+
         // Start the service over to restart listening mode
         BlueConnectionService.this.start();
     }
@@ -482,7 +485,7 @@ public class BlueConnectionService {
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
             mState = STATE_CONNECTED;
-            Intent intent = new Intent("bluetooth_connected");
+            Intent intent = new Intent(Constants.BT_CONNECT_SUCCESSFUL);
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
         }
 

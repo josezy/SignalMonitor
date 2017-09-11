@@ -74,12 +74,8 @@ public class BlueFragment extends Fragment {
 
     @Override
     public void onStart() {
+
         super.onStart();
-        // If BT is not on, request that it be enabled.
-        // setupChat() will then be called during onActivityResult
-        if (mBluetoothAdapter.isEnabled()) {
-            setupChat();
-        }
     }
 
     @Override
@@ -89,7 +85,6 @@ public class BlueFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
 
         IntentFilter filter = new IntentFilter();
 
@@ -98,15 +93,15 @@ public class BlueFragment extends Fragment {
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
         getContext().registerReceiver(mReceiver, filter);
-        //getActivity().registerReceiver(mReceiver, filter);
 
         doDiscovery();
 
+        super.onResume();
     }
 
     @Override
     public void onPause() {
-        getActivity().unregisterReceiver(mReceiver);
+        getContext().unregisterReceiver(mReceiver);
         super.onPause();
     }
 
@@ -123,6 +118,7 @@ public class BlueFragment extends Fragment {
         progressBar = view.findViewById(R.id.simpleProgressBar);
         progressBar.setIndeterminate(true);
 
+        setupChat();
 
     }
 

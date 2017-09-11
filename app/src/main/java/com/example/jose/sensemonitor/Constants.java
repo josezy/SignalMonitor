@@ -40,4 +40,6 @@ public interface Constants {
     String REALTIME_TASK = "rt";
     String UPDATE_STATUS = "us";
     String FILE_ERROR = "fe";
+    String BT_CONNECT_FAILED = "bt_failed_to_connect";
+    String BT_CONNECT_SUCCESSFUL = "bluetooth_connected";
 }

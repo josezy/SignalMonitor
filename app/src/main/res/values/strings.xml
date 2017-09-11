@@ -64,6 +64,8 @@
     <string name="file_error">SD file error!</string>
     <string name="bt_rmData">BORRAR DATOS</string>
     <string name="dataErased">DATOS ELIMINADOS!!!</string>
+    <string name="noPermissions">Permisos no concedidos. Bye!</string>
+    <string name="btFailed">No emparejamos :/</string>
 
 
 </resources>

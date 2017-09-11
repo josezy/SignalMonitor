@@ -1,12 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        tuc_sign {
+            keyAlias 'tuc_key'
+            keyPassword 'tucano123'
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.example.jose.sensemonitor"
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
