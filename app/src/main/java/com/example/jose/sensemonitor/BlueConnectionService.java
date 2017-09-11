@@ -420,7 +420,6 @@ public class BlueConnectionService {
                 // This is a blocking call and will only return on a
                 // successful connection or an exception
                 Log.d("[BICHO]","connectirng socket");
-                Log.d("[BT]",mmSocket.toString());
                 mmSocket.connect();
 
             } catch (IOException e) {
