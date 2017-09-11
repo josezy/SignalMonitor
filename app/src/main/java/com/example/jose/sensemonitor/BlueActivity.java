@@ -1,5 +1,6 @@
 package com.example.jose.sensemonitor;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -7,10 +8,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +32,7 @@ import java.util.List;
 public class BlueActivity extends AppCompatActivity implements communicate{
 
     public BlueConnectionService mChatService = null;
-
+    final int PERMISSION_ALL = 1;
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -57,14 +62,61 @@ public class BlueActivity extends AppCompatActivity implements communicate{
 
     void splashFinished(){
 
-        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        } else {
-            BlueFragmentTransaction();
+        String[] PERMISSIONS = {Manifest.permission.BLUETOOTH,
+                                Manifest.permission.BLUETOOTH_ADMIN,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if(!hasPermissions(this, PERMISSIONS)){
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }else{
+            //BT activation
+            if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+                if (!BluetoothAdapter.getDefaultAdapter().enable()) {
+                    Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+                }else{
+                    BlueFragmentTransaction();
+                }
+            } else {
+                BlueFragmentTransaction();
+            }
         }
+
+
     }
 
+
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case PERMISSION_ALL:{
+                Log.d("[PERMS]", String.valueOf(grantResults.length));
+                if (grantResults.length == 4 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[2] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[3] == PackageManager.PERMISSION_GRANTED){
+                    Log.d("[PERMS]", "todo bien todo bonito");
+                    BluetoothAdapter.getDefaultAdapter().enable();
+                    BlueFragmentTransaction();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.noPermissions, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -83,7 +135,6 @@ public class BlueActivity extends AppCompatActivity implements communicate{
     private void BlueFragmentTransaction(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-
         BlueFragment fragment = new BlueFragment();
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commitAllowingStateLoss();
@@ -99,7 +150,7 @@ public class BlueActivity extends AppCompatActivity implements communicate{
 
     @Override
     public void connectToDevice(BluetoothDevice device) {
-        mChatService.connect(device, true);
+        mChatService.connect(device, false);
     }
 
     public void setmChatServiceHandler(Handler mHand){
@@ -116,15 +167,27 @@ public class BlueActivity extends AppCompatActivity implements communicate{
 
     @Override
     protected void onResume() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("bluetooth_connected"));
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.BT_CONNECT_SUCCESSFUL);
+        filter.addAction(Constants.BT_CONNECT_FAILED);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
         super.onResume();
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("BICHO","Conectado!");
-            ValuesFragmentTransaction();
+            switch (intent.getAction()){
+                case Constants.BT_CONNECT_FAILED:
+                    Log.d("BICHO","Failed to connect!");
+                    Toast.makeText(getApplicationContext(), R.string.btFailed, Toast.LENGTH_SHORT).show();
+                    BlueFragmentTransaction();
+                    break;
+                case Constants.BT_CONNECT_SUCCESSFUL:
+                    Log.d("BICHO","Conectado!");
+                    ValuesFragmentTransaction();
+                    break;
+            }
         }
     };
 
